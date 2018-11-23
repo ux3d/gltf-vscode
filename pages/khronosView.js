@@ -1,10 +1,14 @@
 /*global BABYLON,mainViewModel,gltfViewer,ko*/
+
+var gl = null;
+var canvas = null;
+
 (function() {
     'use strict';
 
 window.KhronosView = function() {
     // Tracks if this engine is currently the active engine.
-    var canvas = null;
+    //var canvas = null;
     var viewer = null;
 
     /**
@@ -15,8 +19,35 @@ window.KhronosView = function() {
     this.cleanup = function() {
     };
 
+    function getWebGlContext()
+    {
+        const parameters = { alpha: false, antialias: false };
+        const names = [ "webgl", "experimental-webgl" ];
+        let context;
+        for (const name of names)
+        {
+            context = canvas.getContext(name, parameters);
+            if (context)
+            {
+                return context;
+            }
+        }
+    }
+
+
     this.startPreview = function() {
         canvas = document.getElementById('khronosRenderCanvas');
+        if (!canvas)
+        {
+            console.warn("Failed to retrieve the WebGL canvas!");
+            return null;
+        }
+
+        gl = getWebGlContext();
+        if (!gl)
+        {
+            console.warn("Failed to get an WebGL rendering context!");
+        }
 
         viewer = new gltfViewer(canvas, undefined, true, undefined);
 
