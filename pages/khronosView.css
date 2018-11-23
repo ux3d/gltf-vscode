@@ -1,0 +1,19 @@
+#khronosRenderCanvas {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: sans-serif;
+    background-color: rgb(255, 0, 0);
+}
+
+#khronosLogo {
+    position: absolute;
+    width: 100px;
+    bottom: 0px;
+    left: 0px;
+    padding: 10px;
+    background-color: white;
+    opacity: 0.8;
+}

@@ -1,4 +1,4 @@
-/*global Cesium,ko,CesiumView,ThreeView,BabylonView*/
+/*global Cesium,ko,CesiumView,ThreeView,BabylonView,KhronosView*/
 (function() {
     'use strict';
 
@@ -15,6 +15,10 @@ var engineInfo = [{
     name: 'Three.js',
     html: 'threeHtml',
     view: ThreeView
+}, {
+    name: 'KhronosRV',
+    html: 'khronosHtml',
+    view: KhronosView
 }];
 
 // Use Cesium's built-in copy of Knockout as the global UI manager
@@ -121,6 +125,7 @@ function initPreview()
 
     // Capture JavaScript errors and display them.
     window.addEventListener('error', function(error) {
+        console.log(error.toString());
         var message = error.toString();
         if (error && error.message) {
             message = error.message;

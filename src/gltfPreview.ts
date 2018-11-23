@@ -14,6 +14,7 @@ export class GltfPreview extends ContextBase {
     private readonly _babylonHtml: string;
     private readonly _cesiumHtml: string;
     private readonly _threeHtml: string;
+    private readonly _khronosHtml: string;
 
     private _panels: { [fileName: string]: GltfPreviewPanel } = {};
 
@@ -24,6 +25,7 @@ export class GltfPreview extends ContextBase {
         this._babylonHtml = encodeURI(fs.readFileSync(this._context.asAbsolutePath('pages/babylonView.html'), 'UTF-8'));
         this._cesiumHtml = encodeURI(fs.readFileSync(this._context.asAbsolutePath('pages/cesiumView.html'), 'UTF-8'));
         this._threeHtml = encodeURI(fs.readFileSync(this._context.asAbsolutePath('pages/threeView.html'), 'UTF-8'));
+        this._khronosHtml = encodeURI(fs.readFileSync(this._context.asAbsolutePath('pages/khronosView.html'), 'UTF-8'));
     }
 
     // Instructions to open Chrome DevTools on the HTML preview window:
@@ -124,6 +126,7 @@ export class GltfPreview extends ContextBase {
             { id: 'babylonHtml', text: this._babylonHtml },
             { id: 'cesiumHtml', text: this._cesiumHtml },
             { id: 'threeHtml', text: this._threeHtml },
+            { id: 'khronosHtml', text: this._khronosHtml},
             { id: 'gltf', text: gltfContent },
             { id: 'gltfRootPath', text: gltfRootPath },
             { id: 'gltfFileName', text: gltfFileName }
@@ -133,6 +136,7 @@ export class GltfPreview extends ContextBase {
             'pages/babylonView.css',
             'pages/cesiumView.css',
             'pages/threeView.css',
+            'pages/khronosView.css',
             'pages/previewModel.css'
         ];
 
@@ -146,10 +150,12 @@ export class GltfPreview extends ContextBase {
             'engines/Three/DRACOLoader.js',
             'engines/Three/GLTFLoader.js',
             'engines/Three/OrbitControls.js',
+            'engines/KhronosRV/khronosRV.min.js',
             'pages/babylonView.js',
             'pages/cesiumView.js',
             'pages/threeView.js',
-            'pages/previewModel.js'
+            'pages/khronosView.js',
+            'pages/previewModel.js',
         ];
 
         // Note that with the file: protocol, we must manually specify the UTF-8 charset.
