@@ -16,7 +16,7 @@ var engineInfo = [{
     html: 'threeHtml',
     view: ThreeView
 }, {
-    name: 'KhronosRV',
+    name: 'Khronos',
     html: 'khronosHtml',
     view: KhronosView
 }];
@@ -125,7 +125,6 @@ function initPreview()
 
     // Capture JavaScript errors and display them.
     window.addEventListener('error', function(error) {
-        console.log(error.toString());
         var message = error.toString();
         if (error && error.message) {
             message = error.message;

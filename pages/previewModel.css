@@ -24,7 +24,7 @@ html, body, #content {
     position: absolute;
     top: 0;
     right: 20px;
-    width: 250px;
+    width: 350px;
     color: #ddd;
     /* Hide controls */
     opacity: 0.3;
