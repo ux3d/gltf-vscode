@@ -104,6 +104,7 @@ function updatePreview() {
     // Cesium has some external assets that it will need to locate.  We configure the hint here,
     // before any of the 3D engines have loaded.
     window.CESIUM_BASE_URL = extensionRootPath + 'engines/Cesium/';
+	window.KHRONOS_BASE_URL = extensionRootPath + 'engines/Khronos/';
 
     activeView = new activeEngineInfo.view();
     activeView.startPreview();
