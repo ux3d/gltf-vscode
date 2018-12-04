@@ -49,7 +49,7 @@
                         "Babylon.js",
                         "Cesium",
                         "Three.js",
-						"Khronos"
+                        "Khronos"
                     ],
                     "description": "The default 3D engine that will be used when previewing a glTF 2.0 model.  You can always change the current engine within the preview pane."
                 },
