@@ -26,7 +26,7 @@ window.KhronosView = function() {
 		var gltfFileName = document.getElementById('gltfFileName').textContent;
 		var gltfRootPath = document.getElementById('gltfRootPath').textContent;
 
-		viewer = gltf_rv('canvas', 'assets/models/2.0/model-index.json', false, undefined, window.KHRONOS_BASE_URL, gltfFileName, gltfRootPath);
+		viewer = gltf_rv('canvas', 'assets/models/2.0/model-index.json', false, undefined, window.KHRONOS_BASE_URL, gltfRootPath + "/" + gltfFileName);
 
 		if (viewer)
 		{
