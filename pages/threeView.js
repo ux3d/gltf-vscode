@@ -131,9 +131,15 @@ window.ThreeView = function() {
             ]);
             envMap.format = THREE.RGBFormat;
             object.traverse(function(node) {
-                if (node.material && 'envMap' in node.material) {
-                    node.material.envMap = envMap;
-                    node.material.needsUpdate = true;
+                if (node.isMesh) {
+                    const materials = Array.isArray(node.material) ? node.material : [node.material];
+                    materials.forEach((material) => {
+                        // MeshBasicMaterial means that KHR_materials_unlit is set, so reflections are not needed.
+                        if ('envMap' in material && !material.isMeshBasicMaterial) {
+                            material.envMap = envMap;
+                            material.needsUpdate = true;
+                        }
+                    });
                 }
             });
 
@@ -224,9 +230,11 @@ window.ThreeView = function() {
 
             scene.add(object);
             onWindowResize();
+
+            mainViewModel.onReady();
         }, undefined, function(error) {
             console.error(error);
-            mainViewModel.errorText(error.stack);
+            mainViewModel.showErrorMessage(error.stack);
         });
 
         orbitControls = new THREE.OrbitControls(camera, renderer.domElement);

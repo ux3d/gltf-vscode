@@ -1,25 +1,37 @@
 {
     "name": "gltf-vscode",
     "displayName": "glTF Tools",
-    "description": "Tools for editing and previewing glTF files",
-    "version": "2.1.19",
+    "description": "Tools for glTF and GLB 3D models",
+    "version": "2.2.4",
     "publisher": "cesium",
     "license": "Apache-2.0",
     "repository": {
         "url": "https://github.com/AnalyticalGraphicsInc/gltf-vscode"
     },
+    "keywords": [
+        "glTF",
+        "glb",
+        "Khronos",
+        "3D",
+        "model"
+    ],
     "icon": "images/gltf.png",
     "engines": {
-        "vscode": "^1.23.0"
+        "vscode": "^1.30.0"
     },
     "categories": [
         "Formatters",
-        "Linters"
+        "Linters",
+        "Debuggers"
     ],
+    "galleryBanner": {
+        "color": "#383838",
+        "theme": "dark"
+    },
     "activationEvents": [
         "onView:gltfOutline",
         "onLanguage:json",
-        "onCommand:gltf.inspectDataUri",
+        "onCommand:gltf.inspectData",
         "onCommand:gltf.importUri",
         "onCommand:gltf.exportUri",
         "onCommand:gltf.previewModel",
@@ -112,8 +124,8 @@
         },
         "commands": [
             {
-                "command": "gltf.inspectDataUri",
-                "title": "glTF: Inspect Data URI"
+                "command": "gltf.inspectData",
+                "title": "glTF: Inspect Data"
             },
             {
                 "command": "gltf.importUri",
@@ -129,6 +141,22 @@
                 "icon": {
                     "dark": "./resources/dark/scene.svg",
                     "light": "./resources/light/scene.svg"
+                }
+            },
+            {
+                "command": "gltf.enableDebugMode",
+                "title": "glTF: Enable Debug Mode",
+                "icon": {
+                    "dark": "./resources/dark/debug-disabled.svg",
+                    "light": "./resources/light/debug-disabled.svg"
+                }
+            },
+            {
+                "command": "gltf.disableDebugMode",
+                "title": "glTF: Disable Debug Mode",
+                "icon": {
+                    "dark": "./resources/dark/debug-enabled.svg",
+                    "light": "./resources/light/debug-enabled.svg"
                 }
             },
             {
@@ -150,11 +178,19 @@
             {
                 "command": "gltf.exportAnimation",
                 "title": "glTF: Export animation"
+            },
+            {
+                "command": "gltfInspectData.copyAll",
+                "title": "Copy All"
+            },
+            {
+                "command": "gltfInspectData.copy",
+                "title": "Copy"
             }
         ],
         "keybindings": [
             {
-                "command": "gltf.inspectDataUri",
+                "command": "gltf.inspectData",
                 "key": "alt+d",
                 "mac": "alt+d",
                 "when": "editorTextFocus && gltfFileActive"
@@ -202,7 +238,7 @@
                     "group": "glTF"
                 },
                 {
-                    "command": "gltf.inspectDataUri",
+                    "command": "gltf.inspectData",
                     "when": "gltfFileActive",
                     "group": "glTF"
                 }
@@ -210,7 +246,17 @@
             "editor/title": [
                 {
                     "command": "gltf.previewModel",
-                    "when": "gltfFileActive && glTF_showToolbar3D",
+                    "when": "gltfFileActive && gltfShowToolbar3D",
+                    "group": "navigation"
+                },
+                {
+                    "command": "gltf.enableDebugMode",
+                    "when": "gltfPreviewActive && !gltfDebugActive",
+                    "group": "navigation"
+                },
+                {
+                    "command": "gltf.disableDebugMode",
+                    "when": "gltfPreviewActive && gltfDebugActive",
                     "group": "navigation"
                 }
             ],
@@ -221,7 +267,7 @@
                     "group": "glTF"
                 },
                 {
-                    "command": "gltf.inspectDataUri",
+                    "command": "gltf.inspectData",
                     "when": "gltfFileActive",
                     "group": "glTF"
                 },
@@ -248,6 +294,18 @@
                     "command": "gltf.validateFile",
                     "group": "glTF"
                 }
+            ],
+            "view/title": [
+                {
+                    "command": "gltfInspectData.copyAll",
+                    "when": "view == gltfInspectData"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "gltfInspectData.copy",
+                    "when": "view == gltfInspectData"
+                }
             ]
         },
         "languages": [
@@ -264,12 +322,26 @@
                 "url": "./schemas/glTF.chooser.schema.json"
             }
         ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "gltf",
+                    "title": "glTF",
+                    "icon": "resources/dark/tf-logo.svg"
+                }
+            ]
+        },
         "views": {
-            "explorer": [
+            "gltf": [
                 {
                     "id": "gltfOutline",
-                    "name": "glTF Outline",
-                    "when": "gltfFileActive"
+                    "name": "Outline",
+                    "when": "gltfActive"
+                },
+                {
+                    "id": "gltfInspectData",
+                    "name": "Inspect Data",
+                    "when": "gltfActive"
                 }
             ]
         }
@@ -292,17 +364,18 @@
         "eslint-plugin-html": "^4.0.3",
         "mocha": "^4.1.0",
         "typescript": "^2.8.3",
+        "vscode": "^1.1.21",
         "yargs": "^11.1.0"
     },
     "dependencies": {
-        "babylonjs": "^3.3.0",
-        "babylonjs-loaders": "^3.3.0",
-        "draco3dgltf": "^1.3.4",
-        "gltf-import-export": "^1.0.14",
-        "gltf-validator": "2.0.0-dev.2.6",
-        "json-source-map": "^0.4.0",
-        "sprintf-js": "^1.1.1",
-        "vscode": "^1.1.21",
+        "babylonjs": "^4.0.0-alpha.26",
+        "babylonjs-inspector": "^4.0.0-alpha.26",
+        "babylonjs-loaders": "^4.0.0-alpha.26",
+        "draco3dgltf": "1.3.4",
+        "gltf-import-export": "1.0.15",
+        "gltf-validator": "2.0.0-dev.2.7",
+        "json-source-map": "0.4.0",
+        "sprintf-js": "1.1.1",
         "vscode-languageclient": "^3.5.1"
     }
 }

@@ -1,5 +1,32 @@
 # Change Log
 
+### 2.2.4 - 2019-03-07
+
+* Update BabylonJS preview window to use high-DPI scaling when available. [#156](https://github.com/AnalyticalGraphicsInc/gltf-vscode/pull/156)
+* Update glTF schema with `EXT_texture_webp` extension and recent spec clarifications. [#157](https://github.com/AnalyticalGraphicsInc/gltf-vscode/pull/157)
+
+### 2.2.3 - 2019-02-12
+
+* Fix an error with the BabylonJS preview window caused by an Electron upgrade in VSCode 1.31. [#152](https://github.com/AnalyticalGraphicsInc/gltf-vscode/issues/152)
+* Updated script handling for better error reporting. [#154](https://github.com/AnalyticalGraphicsInc/gltf-vscode/pull/154)
+
+### 2.2.2 - 2019-01-24
+
+* Fixed a bug with `KHR_materials_unlit` being displayed with a reflection map in the ThreeJS preview window. [#143](https://github.com/AnalyticalGraphicsInc/gltf-vscode/issues/143)
+* Added options to copy from the glTF tree inspector. [#147](https://github.com/AnalyticalGraphicsInc/gltf-vscode/pull/147)
+* Allowed IBL extension to override environment in Babylon. [#149](https://github.com/AnalyticalGraphicsInc/gltf-vscode/pull/149)
+* Fixed an issue with offline use of Babylon's Draco decompression. [#150](https://github.com/AnalyticalGraphicsInc/gltf-vscode/pull/150)
+
+### 2.2.0 and 2.2.1 - 2018-12-18
+
+* Added BabylonJS Inspector for visual glTF debugging. [#129](https://github.com/AnalyticalGraphicsInc/gltf-vscode/pull/129)
+* Moved glTF Outline view to new glTF sidebar.
+* Update Babylon to 4.0.0-alpha.11
+* Update JSON schemas for KHR_* extensions.
+* Add JSON schema for KHR_lights_punctual. [#135](https://github.com/AnalyticalGraphicsInc/gltf-vscode/pull/135)
+* Update main README with more detailed instructions on how to activate various tools and features of this extension. [#134](https://github.com/AnalyticalGraphicsInc/gltf-vscode/pull/134)
+* Update Khronos glTF-Validator to 2.0.0-dev.2.7
+
 ### 2.1.19 - 2018-11-27
 
 * Update npm packages to remove event-stream 3.3.6, which was flagged as malicious (but the payload was inert in this extension).
