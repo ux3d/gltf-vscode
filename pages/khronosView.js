@@ -2,6 +2,7 @@
     'use strict';
 
 window.KhronosView = function() {
+    var enabled = false;
     var viewer = null;
 
     this.cleanup = function() {
