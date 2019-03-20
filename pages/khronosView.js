@@ -17,16 +17,62 @@ window.KhronosView = function() {
 	};
 
     function onWindowResize() {
-	}
+    }
+
+    function subscribeToAnimUI(anim) {
+        anim.active.subscribe(function(newValue) {
+            if(viewer === undefined)
+            {
+                return;
+            }
+
+            viewer.setAnimation(anim.index);
+
+            if (!newValue) {
+                viewer.renderingParameters.animationTimer.pause();
+            } else {
+                viewer.renderingParameters.animationTimer.unpause();
+            }
+        });
+    }
+
+    function updateAnimationsUI(gltf) {
+        if(gltf.animations === undefined)
+        {
+            return;
+        }
+
+        let koAnimations = [];
+        for (var i = 0; i < gltf.animations.length; i++) {
+            var anim = {
+                index: i,
+                name:  gltf.animations[i].name || i,
+                active: ko.observable(false)
+            };
+
+            subscribeToAnimUI(anim);
+            koAnimations.push(anim);
+        }
+
+        mainViewModel.animations(koAnimations);
+        mainViewModel.anyAnimChanged();
+    }
 
     this.startPreview = function() {
 		var gltfFileName = document.getElementById('gltfFileName').textContent;
-		var gltfRootPath = document.getElementById('gltfRootPath').textContent;
+        var gltfRootPath = document.getElementById('gltfRootPath').textContent;
 
-        viewer = gltf_rv.gltf_rv('canvas', 'assets/models/2.0/model-index.json', undefined, false, undefined, window.KHRONOS_BASE_URL, gltfRootPath + "/" + gltfFileName);
+        mainViewModel.hasBackground(false);
+
+        viewer = gltf_rv.gltf_rv('canvas', '', undefined, false, undefined, window.KHRONOS_BASE_URL, gltfRootPath + "/" + gltfFileName);
 
 		if (viewer)
 		{
+            viewer.setGltfLoadedCallback(function(gltf)
+            {
+                updateAnimationsUI(gltf);
+            });
+
 			console.log("Khronos Viewer started.");
 		}
 		else
